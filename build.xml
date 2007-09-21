@@ -1,0 +1,51 @@
+<project default="deploy">
+    <import file="${basedir}/../tomcat.xml"/>
+    <import file="${basedir}/../JamesCookie/module_jamescookie.xml"/>
+    <import file="resourceResolve.xml"/>
+
+    <property name="lib.dir" value="lib"/>
+    <property name="build.dir" value="build"/>
+    <property name="war.file" value="${build.dir}/facebook.war"/>
+    <property name="path" value="/facebook"/>
+    <property name="host" value="www.jamescookie.com"/>
+
+    <property name="lib.output.dir" value="${build.dir}/lib"/>
+
+    <target name="clean"
+            depends="clean.module.jamescookie"
+            description="cleanup all">
+        <delete dir="${build.dir}" failonerror="true"/>
+    </target>
+
+    <target name="create.libs" depends="clean, jar.jamescookie" description="Create required libs">
+        <mkdir dir="${lib.output.dir}"/>
+        <copy file="${jamescookie.output.file}" todir="${lib.output.dir}" overwrite="true" failonerror="true"/>
+    </target>
+
+    <path id="classpath.full">
+        <fileset dir="${lib.dir}" includes="*.jar"/>
+        <fileset dir="${lib.output.dir}" includes="*.jar"/>
+    </path>
+
+    <!--<target name="build.all" depends="create.libs, resolve">-->
+    <target name="build.all" depends="create.libs">
+        <property name="compiled" value="${build.dir}/classes"/>
+        <mkdir dir="${compiled}"/>
+        <javac srcdir="src" destdir="${compiled}" debug="true" classpathref="classpath.full" />
+        <war destfile="${war.file}" webxml="WEB-INF/web.xml">
+            <fileset dir="resources"/>
+            <lib dir="${lib.dir}"/>
+            <lib dir="${lib.output.dir}"/>
+            <classes dir="${compiled}"/>
+            <webinf dir="WEB-INF"/>
+        </war>
+    </target>
+
+    <target name="deploy" depends="build.all">
+        <tomcat.deploy path="${path}" war="${war.file}" host="${host}"/>
+    </target>
+
+    <target name="redeploy" depends="build.all">
+        <tomcat.just.deploy path="${path}" war="${war.file}" host="${host}"/>
+    </target>
+</project>

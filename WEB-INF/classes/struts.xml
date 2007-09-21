@@ -1,0 +1,25 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <bean type="org.apache.struts2.dispatcher.mapper.ActionMapper" name="mymapper"
+          class="com.jamescookie.facebook.MyActionMapper"/>
+
+    <constant name="struts.mapper.class"
+              value="org.apache.struts2.dispatcher.mapper.CompositeActionMapper"/>
+    <constant name="struts.mapper.composite"
+              value="mymapper,struts"/>
+    
+    <package name="facebook" extends="struts-default">
+        <action name="Start" class="com.jamescookie.facebook.StartAction">
+            <result name="login" type="redirect">
+                <param name="location">http://www.facebook.com/login.php?api_key=${apiKey}&amp;v=1.0</param>
+                <param name="parse">true</param>
+            </result>
+            <result name="success" type="chain">UserId</result>
+        </action>
+        <action name="UserId" class="com.jamescookie.facebook.UserIdAction">
+            <result name="success" type="freemarker">/panoramio/DisplayMap.ftl</result>
+        </action>
+    </package>
+</struts>
