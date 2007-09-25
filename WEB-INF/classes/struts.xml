@@ -20,6 +20,10 @@
         </action>
         <action name="UserId" class="com.jamescookie.facebook.UserIdAction">
             <result name="input" type="freemarker">/panoramio/UserId.ftl</result>
+            <result name="success" type="chain">Map</result>
+        </action>
+        <action name="Map" class="com.jamescookie.facebook.MapAction">
+            <result name="input" type="chain">UserId</result>
             <result name="success" type="freemarker">/panoramio/DisplayMap.ftl</result>
         </action>
     </package>

@@ -1,14 +1,9 @@
 package com.jamescookie.facebook;
 
-import com.jamescookie.maps.GoogleApiKey;
-import org.apache.log4j.Logger;
-import org.apache.struts2.ServletActionContext;
-
 public class UserIdAction extends CommonAction {
     private static final int USER_ID = 0;
     private String userId;
     private String errorMessage;
-    private Logger log = Logger.getLogger(this.getClass());
 
     public String getUserId() {
         return userId;
@@ -24,10 +19,6 @@ public class UserIdAction extends CommonAction {
 
     public String getErrorMessage() {
         return errorMessage;
-    }
-
-    public String getMapKey() {
-        return GoogleApiKey.getKey(ServletActionContext.getRequest().getServerName());
     }
 
     public String execute() throws Exception {

@@ -18,7 +18,7 @@
             map.enableDoubleClickZoom();
             map.enableContinuousZoom();
             map.enableScrollWheelZoom();
-            var panoLayer = new PanoramioLayer(map);
+            var panoLayer = new PanoramioLayer(map, ${userId});
             panoLayer.enable();
         }
     }
