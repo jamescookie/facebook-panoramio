@@ -1,17 +1,29 @@
 package com.jamescookie.facebook;
 
-import com.jamescookie.facebook.api.MyFacebookRestClient;
-import com.facebook.api.FacebookRestClient;
 import com.jamescookie.maps.GoogleApiKey;
-import com.opensymphony.xwork2.ActionSupport;
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
-import org.w3c.dom.Document;
 
-public class UserIdAction extends ActionSupport {
-    private MyFacebookRestClient client;
+public class UserIdAction extends CommonAction {
+    private static final int USER_ID = 0;
+    private String userId;
+    private String errorMessage;
+    private Logger log = Logger.getLogger(this.getClass());
 
-    public void setClient(MyFacebookRestClient client) {
-        this.client = client;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public boolean getAnyError() {
+        return errorMessage != null;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
     public String getMapKey() {
@@ -19,12 +31,38 @@ public class UserIdAction extends ActionSupport {
     }
 
     public String execute() throws Exception {
-        System.out.println("client = " + client);
-        Document document = client.getUserPreference(0);
-        System.out.println("document = " + document);
-        FacebookRestClient.printDom(document, "  ");
-        
+        userId = getClient().getUserPreference(USER_ID);
+        if (userId == null || userId.length() == USER_ID) {
+            return INPUT;
+        }
 
+        return SUCCESS;
+    }
+
+    public String doChange() {
+        return INPUT;
+    }
+
+    public String doSave() throws Exception {
+        log.debug("Saving userid = "+userId);
+        if (userId == null || userId.length() == USER_ID) {
+            errorMessage = "User Id must be entered";
+            return INPUT;
+        } else {
+            try {
+                Integer.parseInt(userId);
+            } catch (NumberFormatException e) {
+                errorMessage = "User Id must be a number";
+                return INPUT;
+            }
+            try {
+                getClient().setUserPreference(USER_ID, userId);
+            } catch (Exception e) {
+                log.error("error saving userId: "+userId, e);
+                errorMessage = "There was a problem saving your User Id. Please try again.";
+                return INPUT;
+            }
+        }
         return SUCCESS;
     }
 

@@ -1,5 +1,6 @@
 <html>
 <head>
+    <link rel="stylesheet" href="http://static.ak.facebook.com/css/common.css.pkg.php?c=19:12:60635" type="text/css" media="all"/>
     <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${mapKey}"></script>
     <script type="text/javascript" src="pano_layer.js"></script>
     <script type="text/javascript" src="markermanager.js"></script>
@@ -26,6 +27,11 @@
     </script>
 </head>
 <body onload="setupMap()" onunload="GUnload()">
+  <p>
+      Display Map |
+      <a href="<@s.url action='UserId' method='change'/>">Set User Id</a> |
+      <a href="http://www.panoramio.com/">Visit Panoramio</a>
+  </p>
   <div id="map" style="width:80%; height:500px; margin-left:10%; background-color:#C0C0C0">
     <noscript>
       <div>

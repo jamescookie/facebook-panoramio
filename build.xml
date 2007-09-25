@@ -4,6 +4,7 @@
     <import file="resourceResolve.xml"/>
 
     <property name="lib.dir" value="lib"/>
+    <property name="buildlib.dir" value="buildlib"/>
     <property name="build.dir" value="build"/>
     <property name="war.file" value="${build.dir}/facebook.war"/>
     <property name="path" value="/facebook"/>
@@ -24,6 +25,7 @@
 
     <path id="classpath.full">
         <fileset dir="${lib.dir}" includes="*.jar"/>
+        <fileset dir="${buildlib.dir}" includes="*.jar"/>
         <fileset dir="${lib.output.dir}" includes="*.jar"/>
     </path>
 

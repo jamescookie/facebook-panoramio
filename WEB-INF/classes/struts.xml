@@ -19,6 +19,7 @@
             <result name="success" type="chain">UserId</result>
         </action>
         <action name="UserId" class="com.jamescookie.facebook.UserIdAction">
+            <result name="input" type="freemarker">/panoramio/UserId.ftl</result>
             <result name="success" type="freemarker">/panoramio/DisplayMap.ftl</result>
         </action>
     </package>
