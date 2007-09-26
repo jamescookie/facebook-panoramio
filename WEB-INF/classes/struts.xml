@@ -10,7 +10,7 @@
     <constant name="struts.mapper.composite"
               value="mymapper,struts"/>
     
-    <package name="facebook" extends="struts-default">
+    <package name="panoramio" extends="struts-default">
         <action name="Start" class="com.jamescookie.facebook.StartAction">
             <result name="login" type="redirect">
                 <param name="location">http://www.facebook.com/login.php?api_key=${apiKey}&amp;v=1.0</param>

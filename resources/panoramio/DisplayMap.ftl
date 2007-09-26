@@ -1,9 +1,8 @@
 <html>
 <head>
-    <link rel="stylesheet" href="http://static.ak.facebook.com/css/common.css.pkg.php?c=19:12:60635" type="text/css" media="all"/>
     <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${mapKey}"></script>
-    <script type="text/javascript" src="pano_layer.js"></script>
-    <script type="text/javascript" src="markermanager.js"></script>
+    <script type="text/javascript" src="http://jamescookie.com/facebook/panoramio/markermanager.js"></script>
+    <script type="text/javascript" src="http://jamescookie.com/facebook/panoramio/pano_layer.js"></script>
     <script type="text/javascript">
     //<![CDATA[
     var map;
@@ -25,6 +24,7 @@
 
     //]]>
     </script>
+    <link rel="stylesheet" href="http://static.ak.facebook.com/css/common.css.pkg.php?c=19:12:60635" type="text/css" media="all"/>
 </head>
 <body onload="setupMap()" onunload="GUnload()">
   <p>
