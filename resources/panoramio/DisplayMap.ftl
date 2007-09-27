@@ -13,7 +13,6 @@
             map = new GMap2(document.getElementById("map"));
             map.setCenter(new GLatLng(51.417689690776456, -0.19297689199447632), 1);
             map.setMapType(G_SATELLITE_MAP);
-            map.addControl(new GMapTypeControl());
             map.addControl(new GSmallMapControl());
             map.enableDoubleClickZoom();
             map.enableContinuousZoom();
@@ -27,12 +26,7 @@
     </script>
 </head>
 <body onload="setupMap()" onunload="GUnload()">
-  <p>
-      Display Map |
-      <a href="<@s.url action='UserId' method='change'/>">Set User Id</a> |
-      <a href="http://www.panoramio.com/">Visit Panoramio</a>
-  </p>
-  <div id="map" style="width:80%; height:500px; margin-left:10%; background-color:#C0C0C0">
+  <div id="map" style="width:98%; height:500px; background-color:#C0C0C0">
     <noscript>
       <div>
         <b>JavaScript must be enabled in order for you to use Google Maps.</b><br/>

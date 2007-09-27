@@ -7,6 +7,13 @@
     ${page.head}
 </head>
 <body onload='${page.properties["body.onload"]?default("")}' onunload='${page.properties["body.onunload"]?default("")}'>
-${page.body}
+    <div style="margin:20px;">
+        <div style="margin-bottom:20px;">
+            <a href="/facebook/UserId.action">Display Map</a> |
+            <a href="/facebook/UserId!change.action">Set User Id</a> |
+            <a href="http://www.panoramio.com/">Visit Panoramio</a>
+        </div>
+        ${page.body}
+    </div>
 </body>
 </html>
