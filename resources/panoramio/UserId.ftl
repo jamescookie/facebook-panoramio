@@ -1,10 +1,11 @@
 <html>
 <head>
-    <link rel="stylesheet" href="http://static.ak.facebook.com/css/common.css.pkg.php?c=19:12:60635" type="text/css" media="all"/>
+    <title>Set User Id</title>
 </head>
 <body>
 <form action="<@s.url action='UserId' method='save'/>" method="post">
-    <input type="text" name="userId"/> Enter your user Id here
+    <label for="userId">Enter your user Id here</label>
+    <input id="userId" type="text" name="userId"/><br/>
     <input type="submit" value="Save"/>
     <#if anyError>
         <p class="error">${errorMessage}</p>
