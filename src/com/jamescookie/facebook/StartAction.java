@@ -15,7 +15,7 @@ public class StartAction extends CommonAction {
         return API_KEY;
     }
 
-    public String execute() throws Exception {
+    public String execute() {
         MyFacebookRestClient client = getClient();
 
         if (client != null) {
@@ -42,6 +42,14 @@ public class StartAction extends CommonAction {
 
     private String forwardToNextAction(MyFacebookRestClient client) {
         setClient(client);
+        try {
+            if (!client.users_isAppAdded()) {
+                return INPUT;
+            }
+        } catch (Exception e) {
+            log.error("unable to tell if app is added", e);
+            return ERROR;
+        }
         return SUCCESS;
     }
 

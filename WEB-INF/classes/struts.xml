@@ -16,15 +16,25 @@
                 <param name="location">http://www.facebook.com/login.php?api_key=${apiKey}&amp;v=1.0</param>
                 <param name="parse">true</param>
             </result>
+            <result name="input" type="redirect">
+                <param name="location">http://www.facebook.com/add.php?api_key=${apiKey}</param>
+                <param name="parse">true</param>
+            </result>
             <result name="success" type="chain">UserId</result>
+            <result name="error" type="freemarker">/panoramio/error.ftl</result>
         </action>
         <action name="UserId" class="com.jamescookie.facebook.UserIdAction">
             <result name="input" type="freemarker">/panoramio/UserId.ftl</result>
             <result name="success" type="chain">Map</result>
+            <result name="login" type="chain">Start</result>
+            <result name="error" type="freemarker">/panoramio/error.ftl</result>
         </action>
         <action name="Map" class="com.jamescookie.facebook.MapAction">
             <result name="input" type="chain">UserId</result>
             <result name="success" type="freemarker">/panoramio/DisplayMap.ftl</result>
+        </action>
+        <action name="Profile" class="com.jamescookie.facebook.ProfileAction">
+            <result name="success" type="freemarker">/panoramio/DisplayProfileMap.ftl</result>
         </action>
     </package>
 </struts>

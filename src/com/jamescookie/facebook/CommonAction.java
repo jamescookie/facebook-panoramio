@@ -11,7 +11,7 @@ public abstract class CommonAction implements Action, SessionAware {
     protected Logger log = Logger.getLogger(this.getClass());
     private Map session;
     private static final String FACEBOOK_CLIENT = "FACEBOOK_CLIENT";
-    protected MyFacebookRestClient client;
+    private MyFacebookRestClient client;
 
     public MyFacebookRestClient getClient() {
         if (session.containsKey(FACEBOOK_CLIENT)) {
