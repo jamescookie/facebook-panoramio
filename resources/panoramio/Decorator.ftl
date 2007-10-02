@@ -12,6 +12,7 @@
             <a href="/facebook/UserId.action">Display Map</a> |
             <a href="/facebook/UserId!change.action">Set User Id</a> |
             <a href="http://www.panoramio.com/">Visit Panoramio</a>
+            <hr style="height:1px; color: #ccc; background-color: #ccc; border: medium none;"/>
         </div>
         ${page.body}
     </div>

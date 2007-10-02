@@ -26,7 +26,7 @@
     </script>
 </head>
 <body onload="setupMap()" onunload="GUnload()">
-  <div id="map" style="width:98%; height:500px; background-color:#C0C0C0">
+  <div id="map" style="width:100%; height:500px; background-color:#C0C0C0;">
     <noscript>
       <div>
         <b>JavaScript must be enabled in order for you to use Google Maps.</b><br/>
