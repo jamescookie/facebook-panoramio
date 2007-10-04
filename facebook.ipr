@@ -396,6 +396,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://H:/Java/JamesCookie/JamesCookie.iml" filepath="H:/Java/JamesCookie/JamesCookie.iml" />
+      <module fileurl="file://H:/Java/JamesCookieGraphics/JamesCookieGraphics.iml" filepath="H:/Java/JamesCookieGraphics/JamesCookieGraphics.iml" />
       <module fileurl="file://$PROJECT_DIR$/facebook.iml" filepath="$PROJECT_DIR$/facebook.iml" />
     </modules>
   </component>
