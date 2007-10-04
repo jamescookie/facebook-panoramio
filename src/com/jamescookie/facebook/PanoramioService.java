@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,11 +22,12 @@ import java.util.Map;
 
 public class PanoramioService {
     private static Logger log = Logger.getLogger(PanoramioService.class);
-    public static final String ERROR_TAG = "error_response";
+    private static final int CIRCUMFERENCE = 380;
+    private static Double RADIUS = CIRCUMFERENCE / (2 * Math.PI);
 
-    public static List<URL> getPhotos(String userId) throws Exception {
+    public static List<PanoramioInfo> getPhotos(String userId) throws Exception {
         HashMap<String, CharSequence> params = new HashMap<String, CharSequence>();
-        List<URL> list = new ArrayList<URL>();
+        List<PanoramioInfo> list = new ArrayList<PanoramioInfo>();
 
         params.put("order", "popularity");
         params.put("set", "full");
@@ -45,45 +47,33 @@ public class PanoramioService {
             JSONObject o = (JSONObject) photos.get(i);
             Double latitude = (Double) o.get("latitude");
             Double longitude = (Double) o.get("longitude");
-            findXY(latitude, longitude);
             URL url = new URL((String) o.get("photo_file_url"));
-            list.add(url);
+            list.add(new PanoramioInfo(findXY(latitude, longitude), url));
         }
 
         return list;
     }
 
-    private static void findXY(Double latitude, Double longitude) {
-//        System.out.println("latitude = " + latitude);
-//        System.out.println("longitude = " + longitude);
+    private static Point findXY(Double latitude, Double longitude) {
+        return new Point((int) Math.round(longToX(longitude)), (int) Math.round(latToY(latitude)));
+    }
 
-        int mapHeight = 370;
-        int mapWidth = 380;
-        int maxLat = 85;
-        int maxLong = 180;
+    private static Double longToX(Double longitudeDegrees) {
+        Double longitude = Math.toRadians(longitudeDegrees);
+        double x = (RADIUS * longitude);
+        x += (CIRCUMFERENCE / 2.0);
+        return x;
+    }
 
-
-//        System.out.println("x = "+ (latitude - maxLat));
-//        System.out.println("y = " + (longitude - maxLong));
-
-//
-//        top left =
-//        Latitude: 84.73838712095339
-//        Longitude: -178.59375
-//
-//        top right =
-//        Latitude: 84.73838712095339
-//        Longitude: 175.078125
-//
-//        bottom left =
-//        Latitude: -84.92832092949963
-//        Longitude: -176.484375
-//
-//        bottom right=
-//        Latitude: -84.60784045604663
-//        Longitude: 172.96875
-
-
+    private static Double latToY(Double latitudeDegrees) {
+        Double latitude = Math.toRadians(latitudeDegrees);
+        Double y = RADIUS / 2.0 *
+                Math.log((1.0 + Math.sin(latitude)) /
+                        (1.0 - Math.sin(latitude)));
+        y += (CIRCUMFERENCE / 2.0);
+        y -= (CIRCUMFERENCE);
+        y *= -1;
+        return y;
     }
 
     private static String InputStreamToString(InputStream inputStream) throws IOException {

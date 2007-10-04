@@ -5,13 +5,13 @@ import com.jamescookie.graphics.ImageManipulator;
 import javax.imageio.ImageIO;
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ImageWriter extends ImageManipulator {
@@ -28,22 +28,17 @@ public class ImageWriter extends ImageManipulator {
         super(is, os);
     }
 
-    public void overlayImages(List<URL> urls) throws IOException {
-        List<BufferedImage> images = new ArrayList<BufferedImage>();
-        for (URL url : urls) {
-            images.add(createThumbnail(30, ImageIO.read(url)));
-        }
-
-        int i = 0;
-        for (BufferedImage bufferedImage : images) {
+    public void overlayImages(List<PanoramioInfo> list) throws IOException {
+        for (PanoramioInfo info : list) {
+            BufferedImage bufferedImage = createThumbnail(30, ImageIO.read(info.getUrl()));
             Graphics2D g = image.createGraphics();
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            int x = ((image.getWidth() - bufferedImage.getWidth()) / 2) + i++;
-            int y = ((image.getHeight() - bufferedImage.getHeight()) / 2) + i;
+            Point p = info.getPoint();
+            int x = (int) p.getX() - (bufferedImage.getWidth() / 2);
+            int y = (int) p.getY() - (bufferedImage.getHeight() / 2);
             g.drawImage(bufferedImage, x, y, null);
             g.dispose();
         }
-
         writeImage(out, image);
     }
 
