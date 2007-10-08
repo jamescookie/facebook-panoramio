@@ -4,6 +4,7 @@ import com.jamescookie.graphics.ImageManipulator;
 
 import javax.imageio.ImageIO;
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -32,10 +33,12 @@ public class ImageWriter extends ImageManipulator {
         for (PanoramioInfo info : list) {
             BufferedImage bufferedImage = createThumbnail(30, ImageIO.read(info.getUrl()));
             Graphics2D g = image.createGraphics();
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
             Point p = info.getPoint();
             int x = (int) p.getX() - (bufferedImage.getWidth() / 2);
             int y = (int) p.getY() - (bufferedImage.getHeight() / 2);
+            g.setColor(Color.WHITE);
+            g.drawRect(x-1, y-1, bufferedImage.getWidth()+1, bufferedImage.getHeight()+1);
             g.drawImage(bufferedImage, x, y, null);
             g.dispose();
         }

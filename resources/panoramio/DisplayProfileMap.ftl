@@ -1,1 +1,1 @@
-hello ${userId}
+<img src="http://jamescookie.com/facebook/panoramio/thumbs/world${userId}.jpg" alt="My World Photos"/>  

@@ -36,7 +36,7 @@ public class UserIdAction extends CommonAction {
             return INPUT;
         }
 
-        return refreshProfile();
+        return SUCCESS;
     }
 
     public String doChange() {
@@ -65,7 +65,7 @@ public class UserIdAction extends CommonAction {
                 return INPUT;
             }
         }
-        return refreshProfile();
+        return SUCCESS;
     }
 
     public MyFacebookRestClient getClient() throws NoClientException {
@@ -74,21 +74,6 @@ public class UserIdAction extends CommonAction {
             throw new NoClientException();
         }
         return client;
-    }
-
-    private String refreshProfile() {
-        String URL = "http://jamescookie.com/facebook/panoramio/Profile.action";
-
-        try {
-            MyFacebookRestClient client = getClient();
-            client.fbml_refreshRefUrl(URL);
-            client.profile_setFBML("<fb:ref url=\"" + URL + "\"/>", client.users_getLoggedInUser());
-        } catch (Exception e) {
-            log.error("error refreshing cache", e);
-            return ERROR;
-        }
-
-        return SUCCESS;
     }
 
 }

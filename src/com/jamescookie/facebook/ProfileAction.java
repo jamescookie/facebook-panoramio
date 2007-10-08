@@ -1,19 +1,17 @@
 package com.jamescookie.facebook;
 
-import com.jamescookie.maps.GoogleApiKey;
-import org.apache.struts2.ServletActionContext;
-
 public class ProfileAction extends CommonAction {
-    public String getUserId() {
-        return "344887";
+    private String userId;
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getMapKey() {
-        return GoogleApiKey.getKey(ServletActionContext.getRequest().getServerName());
+    public String getUserId() {
+        return userId;
     }
 
     public String execute() throws Exception {
-        log.info("********************foing profile****************************");
         return SUCCESS;
     }
 }

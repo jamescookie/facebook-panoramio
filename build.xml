@@ -2,6 +2,7 @@
     <import file="${basedir}/../tomcat.xml"/>
     <import file="${basedir}/../JamesCookie/module_jamescookie.xml"/>
     <import file="${basedir}/../JamesCookieGraphics/module_jamescookiegraphics.xml"/>
+    <import file="${basedir}/../JamesCookieWeb/module_jamescookieweb.xml"/>
     <import file="resourceResolve.xml"/>
 
     <property name="lib.dir" value="lib"/>
@@ -14,15 +15,16 @@
     <property name="lib.output.dir" value="${build.dir}/lib"/>
 
     <target name="clean"
-            depends="clean.module.jamescookie, clean.module.jamescookiegraphics"
+            depends="clean.module.jamescookie, clean.module.jamescookiegraphics, clean.module.jamescookieweb"
             description="cleanup all">
         <delete dir="${build.dir}" failonerror="true"/>
     </target>
 
-    <target name="create.libs" depends="clean, jar.jamescookie, jar.jamescookiegraphics" description="Create required libs">
+    <target name="create.libs" depends="clean, jar.jamescookie, jar.jamescookiegraphics, jar.jamescookieweb" description="Create required libs">
         <mkdir dir="${lib.output.dir}"/>
         <copy file="${jamescookie.output.file}" todir="${lib.output.dir}" overwrite="true" failonerror="true"/>
         <copy file="${jamescookiegraphics.output.file}" todir="${lib.output.dir}" overwrite="true" failonerror="true"/>
+        <copy file="${jamescookieweb.output.file}" todir="${lib.output.dir}" overwrite="true" failonerror="true"/>
     </target>
 
     <path id="classpath.full">
