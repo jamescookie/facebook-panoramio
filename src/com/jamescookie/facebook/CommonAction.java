@@ -9,6 +9,7 @@ import java.util.Map;
 
 public abstract class CommonAction implements Action, SessionAware {
     public static final String FULL_URL = "http://jamescookie.com/facebook/panoramio";
+    protected static final String API_KEY = "40301fa6f17493c04408ec752c98ac1a";
     protected Logger log = Logger.getLogger(this.getClass());
     private Map session;
     private static final String FACEBOOK_CLIENT = "FACEBOOK_CLIENT";
@@ -33,6 +34,10 @@ public abstract class CommonAction implements Action, SessionAware {
 
     public String getFullURL() {
         return FULL_URL;
+    }
+
+    public static String getApiKey() {
+        return API_KEY;
     }
 
     public abstract String execute() throws Exception;

@@ -54,14 +54,18 @@ public class ProfileThread implements Runnable {
     }
 
     protected String getOutputFileName() {
-        return Utils.getPathToWebAppByDodgyMethod() + File.separator + THUMBNAIL_DIR + File.separator + "world" + userId + ".jpg";
+        return getThumbnailDirectory() + "world" + userId + ".jpg";
+    }
+
+    protected String getThumbnailDirectory() {
+        return Utils.getPathToWebAppByDodgyMethod() + File.separator + THUMBNAIL_DIR + File.separator;
     }
 
     private InputStream getImage() throws Exception {
         log.debug("Creating image");
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ImageWriter imageWriter = new ImageWriter(getResource(), outputStream);
-        imageWriter.overlayImages(PanoramioService.getPhotos(userId));
+        imageWriter.overlayImages(PanoramioService.getPhotos(userId), new File(getThumbnailDirectory()));
         outputStream.flush();
         outputStream.close();
         log.debug("Finished creating image");
@@ -77,8 +81,8 @@ public class ProfileThread implements Runnable {
             protected InputStream getResource() throws Exception {
                 return new FileInputStream("world.jpg");
             }
-            protected String getOutputFileName() {
-                return "newworld.jpg";
+            protected String getThumbnailDirectory() {
+                return "";
             }
         };
         mapAction.writeStreamToFile(mapAction.getImage());

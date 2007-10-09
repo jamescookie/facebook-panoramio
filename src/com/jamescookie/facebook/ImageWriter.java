@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,9 +30,20 @@ public class ImageWriter extends ImageManipulator {
         super(is, os);
     }
 
-    public void overlayImages(List<PanoramioInfo> list) throws IOException {
+    public void overlayImages(List<PanoramioInfo> list, File tempDir) throws IOException {
         for (PanoramioInfo info : list) {
-            BufferedImage bufferedImage = createThumbnail(30, ImageIO.read(info.getUrl()));
+            String filename = info.getUrl().getFile();
+            filename = filename.substring(filename.lastIndexOf("/"), filename.length());
+            File thumb = new File(tempDir, filename);
+            BufferedImage thumbImage;
+            if (thumb.exists()) {
+                thumbImage = ImageIO.read(thumb);
+            } else {
+                ImageWriter thumbWriter = new ImageWriter(info.getUrl(), new FileOutputStream(thumb));
+                thumbImage = thumbWriter.image;
+                ImageManipulator.writeImage(thumbWriter.out, thumbWriter.image);
+            }
+            BufferedImage bufferedImage = createThumbnail(30, thumbImage);
             Graphics2D g = image.createGraphics();
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
             Point p = info.getPoint();

@@ -3,16 +3,11 @@ package com.jamescookie.facebook;
 import com.jamescookie.facebook.api.MyFacebookRestClient;
 
 public class StartAction extends CommonAction {
-    private static final String API_KEY = "40301fa6f17493c04408ec752c98ac1a";
     private static final String SECRET_KEY = "276e644d20c1c86e8be0d4d90514ca03";
     private String auth_token;
 
     public void setAuth_token(String auth_token) {
         this.auth_token = auth_token;
-    }
-
-    public static String getApiKey() {
-        return API_KEY;
     }
 
     public String execute() {
