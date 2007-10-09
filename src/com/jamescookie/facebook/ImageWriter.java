@@ -1,6 +1,7 @@
 package com.jamescookie.facebook;
 
 import com.jamescookie.graphics.ImageManipulator;
+import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.AlphaComposite;
@@ -17,6 +18,7 @@ import java.net.URL;
 import java.util.List;
 
 public class ImageWriter extends ImageManipulator {
+    private Logger log = Logger.getLogger(this.getClass());
 
     public ImageWriter(URL url, OutputStream os) throws IOException {
         super(url, os);
@@ -32,29 +34,58 @@ public class ImageWriter extends ImageManipulator {
 
     public void overlayImages(List<PanoramioInfo> list, File tempDir) throws IOException {
         for (PanoramioInfo info : list) {
-            String filename = info.getUrl().getFile();
-            filename = filename.substring(filename.lastIndexOf("/"), filename.length());
-            File thumb = new File(tempDir, filename);
-            BufferedImage thumbImage;
-            if (thumb.exists()) {
-                thumbImage = ImageIO.read(thumb);
-            } else {
-                ImageWriter thumbWriter = new ImageWriter(info.getUrl(), new FileOutputStream(thumb));
-                thumbImage = thumbWriter.image;
-                ImageManipulator.writeImage(thumbWriter.out, thumbWriter.image);
+            BufferedImage thumbImage = getThumbnail(info, tempDir);
+            if (thumbImage == null) {
+                continue;
             }
-            BufferedImage bufferedImage = createThumbnail(30, thumbImage);
-            Graphics2D g = image.createGraphics();
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
-            Point p = info.getPoint();
-            int x = (int) p.getX() - (bufferedImage.getWidth() / 2);
-            int y = (int) p.getY() - (bufferedImage.getHeight() / 2);
-            g.setColor(Color.WHITE);
-            g.drawRect(x-1, y-1, bufferedImage.getWidth()+1, bufferedImage.getHeight()+1);
-            g.drawImage(bufferedImage, x, y, null);
-            g.dispose();
+            writeThumbnailOverImage(thumbImage, info.getPoint());
         }
         writeImage(out, image);
+    }
+
+    private void writeThumbnailOverImage(BufferedImage thumbImage, Point p) {
+        BufferedImage bufferedImage = createThumbnail(30, thumbImage);
+        Graphics2D g = image.createGraphics();
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+        int x = (int) p.getX() - (bufferedImage.getWidth() / 2);
+        int y = (int) p.getY() - (bufferedImage.getHeight() / 2);
+        g.setColor(Color.WHITE);
+        g.drawRect(x-1, y-1, bufferedImage.getWidth()+1, bufferedImage.getHeight()+1);
+        g.drawImage(bufferedImage, x, y, null);
+        g.dispose();
+    }
+
+    private BufferedImage getThumbnail(PanoramioInfo info, File tempDir) throws IOException {
+        BufferedImage thumbImage;
+        String filename = info.getUrl().getFile();
+        filename = filename.substring(filename.lastIndexOf("/"), filename.length());
+        File thumb = new File(tempDir, filename);
+        if (thumb.exists()) {
+            thumbImage = ImageIO.read(thumb);
+        } else {
+            thumbImage = getRemoteImageAndSaveLocally(info, thumb);
+        }
+        return thumbImage;
+    }
+
+    private BufferedImage getRemoteImageAndSaveLocally(PanoramioInfo info, File thumb) {
+        BufferedImage thumbImage;
+        try {
+            ImageWriter thumbWriter = new ImageWriter(info.getUrl(), new FileOutputStream(thumb));
+            thumbImage = thumbWriter.image;
+            ImageManipulator.writeImage(thumbWriter.out, thumbWriter.image);
+        } catch (IOException e) {
+            thumbImage = null;
+            log.error("Error with thumbnail: "+ info.getUrl(), e);
+            try {
+                if (thumb.exists()) {
+                    thumb.delete();
+                }
+            } catch (Exception e1) {
+                log.error("Couldn't even delete it!", e1);
+            }
+        }
+        return thumbImage;
     }
 
 }
