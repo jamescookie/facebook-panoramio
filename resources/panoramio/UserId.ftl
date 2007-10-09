@@ -20,7 +20,7 @@
     <p>
         In the address bar of your web browser, you will see something like this:
     </p>
-    <img src="http://jamescookie.com/facebook/panoramio/url.gif" alt="url"/>
+    <img src="${fullURL}/url.gif" alt="url"/>
     <p>
         In this case you would enter 344887 in the box above and click 'Save'.
     </p>

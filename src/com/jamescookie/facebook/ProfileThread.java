@@ -43,7 +43,7 @@ public class ProfileThread implements Runnable {
     }
 
     private void refreshProfile() {
-        String URL = "http://jamescookie.com/facebook/panoramio/Profile.action?userId="+userId;
+        String URL = CommonAction.FULL_URL + "/Profile.action?userId="+userId;
 
         try {
             client.fbml_refreshRefUrl(URL);

@@ -1,1 +1,2 @@
-<img src="http://jamescookie.com/facebook/panoramio/thumbs/world${userId}.jpg" alt="My World Photos"/>  
+<a href="${fullURL}/Map.action?userId=${userId}"><img src="${fullURL}/thumbs/world${userId}.jpg" alt="My World Photos"/></a>
+

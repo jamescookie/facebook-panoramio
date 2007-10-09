@@ -5,6 +5,6 @@
         <pattern>*/Profile.action*</pattern>
     </excludes>
     <decorator name="menu" page="/panoramio/Decorator.ftl">
-        <pattern>/*</pattern>
+        <pattern>/panoramio/*</pattern>
     </decorator>
 </decorators>

@@ -2,8 +2,8 @@
 <head>
     <title>Display Map</title>
     <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${mapKey}"></script>
-    <script type="text/javascript" src="http://jamescookie.com/facebook/panoramio/markermanager.js"></script>
-    <script type="text/javascript" src="http://jamescookie.com/facebook/panoramio/pano_layer.js"></script>
+    <script type="text/javascript" src="${fullURL}/markermanager.js"></script>
+    <script type="text/javascript" src="${fullURL}/pano_layer.js"></script>
     <script type="text/javascript">
     //<![CDATA[
     var map;

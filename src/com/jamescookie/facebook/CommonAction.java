@@ -8,6 +8,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import java.util.Map;
 
 public abstract class CommonAction implements Action, SessionAware {
+    public static final String FULL_URL = "http://jamescookie.com/facebook/panoramio";
     protected Logger log = Logger.getLogger(this.getClass());
     private Map session;
     private static final String FACEBOOK_CLIENT = "FACEBOOK_CLIENT";
@@ -28,6 +29,10 @@ public abstract class CommonAction implements Action, SessionAware {
 
     public void setSession(Map session) {
         this.session = session;
+    }
+
+    public String getFullURL() {
+        return FULL_URL;
     }
 
     public abstract String execute() throws Exception;

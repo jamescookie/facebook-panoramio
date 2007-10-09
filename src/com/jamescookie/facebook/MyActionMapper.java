@@ -1,12 +1,11 @@
 package com.jamescookie.facebook;
 
+import com.opensymphony.xwork2.config.ConfigurationManager;
+import org.apache.struts2.RequestUtils;
 import org.apache.struts2.dispatcher.mapper.ActionMapper;
 import org.apache.struts2.dispatcher.mapper.ActionMapping;
-import org.apache.struts2.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.opensymphony.xwork2.config.ConfigurationManager;
 
 public class MyActionMapper implements ActionMapper {
     public ActionMapping getMapping(HttpServletRequest request, ConfigurationManager configManager) {
@@ -14,7 +13,7 @@ public class MyActionMapper implements ActionMapper {
         String uri = RequestUtils.getServletPath(request);
 
         if (uri.contains("index.html")) {
-            mapping = new ActionMapping("Start", "", "", null);
+            mapping = new ActionMapping("Start", "/panoramio", "", null);
         }
 
         return mapping;
