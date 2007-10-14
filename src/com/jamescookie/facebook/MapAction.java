@@ -1,5 +1,6 @@
 package com.jamescookie.facebook;
 
+import com.jamescookie.facebook.api.MyFacebookRestClient;
 import com.jamescookie.maps.GoogleApiKey;
 import org.apache.struts2.ServletActionContext;
 
@@ -29,8 +30,11 @@ public class MapAction extends CommonAction {
     }
 
     public void createNewProfileImage(String userId) throws Exception {
-        ProfileThread thread = new ProfileThread(userId, getClient());
-        new Thread(thread).start();
+        MyFacebookRestClient client = getClient();
+        if (client != null) {
+            ProfileThread thread = new ProfileThread(userId, client);
+            new Thread(thread).start();
+        }
     }
 
 }

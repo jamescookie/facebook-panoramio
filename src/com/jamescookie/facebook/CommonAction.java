@@ -23,8 +23,12 @@ public abstract class CommonAction implements Action, SessionAware {
     }
 
     public void setClient(MyFacebookRestClient client) {
-        //noinspection unchecked
-        session.put(FACEBOOK_CLIENT, client);
+        if (client == null) {
+            session.remove(FACEBOOK_CLIENT);
+        } else {
+            //noinspection unchecked
+            session.put(FACEBOOK_CLIENT, client);
+        }
         this.client = client;
     }
 
