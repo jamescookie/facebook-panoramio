@@ -19,6 +19,7 @@ import java.util.List;
 
 public class ImageWriter extends ImageManipulator {
     private Logger log = Logger.getLogger(this.getClass());
+    private static final int LARGEST_DIMENSION = 30;
 
     public ImageWriter(URL url, OutputStream os) throws IOException {
         super(url, os);
@@ -43,16 +44,27 @@ public class ImageWriter extends ImageManipulator {
         writeImage(out, image);
     }
 
-    private void writeThumbnailOverImage(BufferedImage thumbImage, Point p) {
-        BufferedImage bufferedImage = createThumbnail(30, thumbImage);
+    private void writeThumbnailOverImage(BufferedImage bufferedImage, Point p) {
         Graphics2D g = image.createGraphics();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
-        int x = (int) p.getX() - (bufferedImage.getWidth() / 2);
-        int y = (int) p.getY() - (bufferedImage.getHeight() / 2);
+        int x = getX(p, bufferedImage);
+        int y = getY(p, bufferedImage);
         g.setColor(Color.WHITE);
         g.drawRect(x-1, y-1, bufferedImage.getWidth()+1, bufferedImage.getHeight()+1);
         g.drawImage(bufferedImage, x, y, null);
         g.dispose();
+    }
+
+    private int getY(Point p, BufferedImage bufferedImage) {
+        int y = (int) p.getY() - (bufferedImage.getHeight() / 2);
+        if (y < 1) y = 1;
+        return y;
+    }
+
+    private int getX(Point p, BufferedImage bufferedImage) {
+        int x = (int) p.getX() - (bufferedImage.getWidth() / 2);
+        if (x < 1) x = 1;
+        return x;
     }
 
     private BufferedImage getThumbnail(PanoramioInfo info, File tempDir) throws IOException {
@@ -72,7 +84,7 @@ public class ImageWriter extends ImageManipulator {
         BufferedImage thumbImage;
         try {
             ImageWriter thumbWriter = new ImageWriter(info.getUrl(), new FileOutputStream(thumb));
-            thumbImage = thumbWriter.image;
+            thumbImage = ImageManipulator.createThumbnail(LARGEST_DIMENSION, thumbWriter.image);
             ImageManipulator.writeImage(thumbWriter.out, thumbWriter.image);
         } catch (IOException e) {
             thumbImage = null;
