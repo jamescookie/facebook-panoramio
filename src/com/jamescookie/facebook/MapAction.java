@@ -20,7 +20,7 @@ public class MapAction extends CommonAction {
     }
 
     public String execute() throws Exception {
-        if (userId == null) {
+        if (userId == null || userId.length() == 0) {
             return INPUT;
         }
 
@@ -29,11 +29,19 @@ public class MapAction extends CommonAction {
         return SUCCESS;
     }
 
-    public void createNewProfileImage(String userId) throws Exception {
+    public void createNewProfileImage(String otherUserId) {
         MyFacebookRestClient client = getClient();
         if (client != null) {
-            ProfileThread thread = new ProfileThread(userId, client);
-            new Thread(thread).start();
+            String userId = null;
+            try {
+                userId = UserIdAction.getUserIdFromFaceBook(client);
+            } catch (Exception e) {
+                log.error("unable to determine userId", e);
+            }
+            if (otherUserId.equals(userId)) { 
+                ProfileThread thread = new ProfileThread(userId, client);
+                new Thread(thread).start();
+            }
         }
     }
 

@@ -25,18 +25,22 @@ public class UserIdAction extends CommonAction {
 
     public String execute() {
         try {
-            userId = getClient().getUserPreference(USER_ID);
+            userId = getUserIdFromFaceBook(getClient());
         } catch (NoClientException e) {
             return LOGIN;
         } catch (Exception e) {
             log.error("error getting userId", e);
             return ERROR;
         }
-        if (userId == null || userId.length() == USER_ID) {
+        if (userId == null || userId.length() == 0) {
             return INPUT;
         }
 
         return SUCCESS;
+    }
+
+    public static String getUserIdFromFaceBook(MyFacebookRestClient client) throws Exception {
+        return client.getUserPreference(USER_ID);
     }
 
     public String doChange() {
@@ -45,7 +49,7 @@ public class UserIdAction extends CommonAction {
 
     public String doSave() {
         log.debug("Saving userid = "+userId);
-        if (userId == null || userId.length() == USER_ID) {
+        if (userId == null || userId.length() == 0) {
             errorMessage = "User Id must be entered";
             return INPUT;
         } else {
