@@ -51,7 +51,16 @@ public class ImageWriter extends ImageManipulator {
         int y = getY(p, bufferedImage);
         g.setColor(Color.WHITE);
         g.drawRect(x-1, y-1, bufferedImage.getWidth()+1, bufferedImage.getHeight()+1);
-        g.drawImage(bufferedImage, x, y, null);
+        if ((x + bufferedImage.getWidth() > image.getWidth()) ||
+            (y + bufferedImage.getHeight() > image.getHeight())) {
+            int rectWidth = image.getWidth() - x;
+            int rectHeight = image.getHeight() - y;
+            if (rectWidth > bufferedImage.getWidth()) rectWidth = bufferedImage.getWidth();
+            if (rectHeight > bufferedImage.getHeight()) rectHeight = bufferedImage.getHeight();
+            g.drawImage(bufferedImage, x, y, rectWidth, rectHeight, null);
+        } else {
+            g.drawImage(bufferedImage, x, y, null);
+        }
         g.dispose();
     }
 
@@ -83,9 +92,8 @@ public class ImageWriter extends ImageManipulator {
     private BufferedImage getRemoteImageAndSaveLocally(PanoramioInfo info, File thumb) {
         BufferedImage thumbImage;
         try {
-            ImageWriter thumbWriter = new ImageWriter(info.getUrl(), new FileOutputStream(thumb));
-            thumbImage = ImageManipulator.createThumbnail(LARGEST_DIMENSION, thumbWriter.image);
-            ImageManipulator.writeImage(thumbWriter.out, thumbWriter.image);
+            thumbImage = ImageManipulator.createThumbnail(LARGEST_DIMENSION, ImageIO.read(info.getUrl()));
+            ImageManipulator.writeImage(new FileOutputStream(thumb), thumbImage);
         } catch (IOException e) {
             thumbImage = null;
             log.error("Error with thumbnail: "+ info.getUrl(), e);
