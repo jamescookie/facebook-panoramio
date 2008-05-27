@@ -1,4 +1,4 @@
-<project default="deploy">
+<project default="build.all">
     <import file="${basedir}/../tomcat.xml"/>
     <import file="${basedir}/../JamesCookie/module_jamescookie.xml"/>
     <import file="${basedir}/../JamesCookieGraphics/module_jamescookiegraphics.xml"/>

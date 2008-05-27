@@ -6,10 +6,8 @@
           class="com.jamescookie.facebook.MyActionMapper"/>
 
     <constant name="struts.mapper.class"
-              value="org.apache.struts2.dispatcher.mapper.CompositeActionMapper"/>
-    <constant name="struts.mapper.composite"
-              value="mymapper,struts"/>
-    
+              value="mymapper"/>
+
     <package name="panoramio" extends="struts-default" namespace="/panoramio">
         <global-results>
             <result name="error" type="chain">Error</result>
