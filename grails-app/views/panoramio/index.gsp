@@ -21,7 +21,7 @@
 
                 FB.getLoginStatus(function(response) {
                     if (response.session) {
-                        doStuff();
+                        doStuff(response.session.uid);
                     } else {
                         $('#connecting').hide();
                         $('#connect').click(connect).show();
@@ -35,13 +35,13 @@
                     if (response.session) {
                         $('#connect').hide();
                         $('#connecting').show();
-                        doStuff();
+                        doStuff(response.session.uid);
                     }
                 });
             },
 
-            doStuff = function() {
-                console.log('doing stuff')
+            doStuff = function(userId) {
+                console.log('doing stuff', userId)
             };
 
             $(init);
