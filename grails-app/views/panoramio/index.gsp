@@ -27,6 +27,30 @@
                         $('#connect').click(connect).show();
                     }
                 });
+
+                $('#setUser').live('click', function(ev) {
+                    ev.preventDefault();
+                    var button = $(this),
+                        form = button.parent(),
+                        url =  form.attr('action'),
+                        inputs = $(':input', form),
+                        dataString = "submitted=true";
+
+                    inputs.each(function() {
+                        dataString += '&'+this.name +'='+ $(this).val();
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: dataString,
+                        success: function(data) {
+                            $('#fb-root').html(data);
+                        }
+                    });
+
+                    return false;
+                });
             },
 
             connect = function(ev) {
@@ -41,7 +65,7 @@
             },
 
             doStuff = function(userId) {
-                console.log('doing stuff', userId)
+                $('#fb-root').load("<g:createLink action="checkUser"/>/"+userId)
             };
 
             $(init);
@@ -52,7 +76,7 @@
 <body>
 <div id="fb-root">
     <img id="connecting" src="${resource(dir: 'images', file: 'spinner.gif')}" alt="Loading"/>
-    <h2 id="connect" style="display:none">Please click here to log onto facebook</h2>
+    <h2 id="connect" style="display:none">Please click here to log onto Facebook</h2>
 </div>
 </body>
 </html>
