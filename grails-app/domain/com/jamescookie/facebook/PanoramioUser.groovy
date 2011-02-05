@@ -6,7 +6,7 @@ class PanoramioUser {
 
     static constraints = {
         facebookId(unique:true, blank:false, nullable:false)
-        panoramioId(unique:true, blank:false, nullable:false)
+        panoramioId(blank:false, nullable:false)
     }
 
     public String toString() {
