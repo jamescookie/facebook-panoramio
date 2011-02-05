@@ -1,15 +1,15 @@
 function PanoramioLayerCallback(json, panoLayer) {
-    var batch = [];
+    this.panoLayer = panoLayer;
+
     for (var i = 0; i < json.photos.length; i++) {
         var photo = json.photos[i];
         if (!panoLayer.ids[photo.photo_id]) {
             var marker = this.createMarker(photo, panoLayer.markerIcon);
-            batch.push(marker);
+            panoLayer.mgr.addMarker(marker, 0);
             panoLayer.ids[photo.photo_id] = "exists";
+            panoLayer.mgr.addMarker(marker, panoLayer.map.getZoom());
         }
     }
-    panoLayer.mgr.addMarkers(batch, 0);
-    panoLayer.mgr.refresh();
 }
 
 PanoramioLayerCallback.prototype.formImgUrl = function(photoId, imgType) {
@@ -21,28 +21,30 @@ PanoramioLayerCallback.prototype.formPageUrl = function(photoId) {
 }
 
 PanoramioLayerCallback.prototype.createMarker = function(photo, baseIcon) {
+    var me = this;
     var markerIcon = new GIcon(baseIcon);
     markerIcon.image = this.formImgUrl(photo.photo_id, "mini_square");
-    var marker = new GMarker(new GLatLng(photo.latitude, photo.longitude), {icon: markerIcon});
+    var marker = new GMarker(new GLatLng(photo.latitude, photo.longitude), {icon: markerIcon, title: photo.photo_title});
 
     if (photo.photo_title.length > 33) {
         photo.photo_title = photo.photo_title.substring(0, 33) + "&#8230;";
     }
-    var html = "<div class='infowindow'>" +
-               "<br /><a href='http://www.panoramio.com/' target='_blank'>" +
-               "<img src='http://www.panoramio.com/img/logo-small.gif' border='0' width='119px' height='25px' alt='Panoramio logo' /><\/a><br />" +
-               "<a id='photo_infowin' target='_blank' href='" + photo.photo_url + "'>" +
-               "<img border='0' width='" + photo.width + "' height='" + photo.height + "' src='" + photo.photo_file_url + "'/><\/a>" +
-               "<div style='overflow: hidden; width: 240px;'>" +
-               "<a target='_blank' class='photo_title' href='" + photo.photo_url +
-               "'><strong>" + photo.photo_title + "<\/strong><\/a>" +
-               "<\/div>" +
-               "<\/div>";
+    var html = "<div id='infowin' style='height:240px; width:240px;'>" +
+            "<p><a href='http://www.panoramio.com/' target='_blank'>" +
+            "<img src='http://www.panoramio.com/img/logo-small.gif' border='0' width='119px' height='25px' alt='Panoramio logo' /><\/a></p>" +
+            "<a id='photo_infowin' target='_blank' href='" + photo.photo_url + "'>" +
+            "<img border='0' width='" + photo.width + "' height='" + photo.height + "' src='" + photo.photo_file_url + "'/><\/a>" +
+            "<div style='overflow: hidden; width: 240px;'>" +
+            "<p><a target='_blank' class='photo_title' href='" + photo.photo_url +
+            "'><strong>" + photo.photo_title + "<\/strong><\/a></p>" +
+            "<p>Posted by <a target='_blank' href='" + photo.owner_url + "'>" +
+            photo.owner_name + "<\/a></p><\/div>" +
+            "<\/div>";
 
     marker.html = html;
 
     GEvent.addListener(marker, "click", function() {
-        marker.openInfoWindow(marker.html);
+        me.panoLayer.map.openInfoWindow(marker.getLatLng(), marker.html, {noCloseOnClick: true});
     });
 
     return marker;
@@ -51,6 +53,7 @@ PanoramioLayerCallback.prototype.createMarker = function(photo, baseIcon) {
 
 function PanoramioLayer(map, userId) {
     var me = this;
+    me.map = map;
     me.ids = {};
     me.mgr = new MarkerManager(map, {maxZoom: 19});
     me.userId = userId;
@@ -87,6 +90,10 @@ PanoramioLayer.prototype.disable = function() {
     this.ids = {};
 }
 
+PanoramioLayer.prototype.getEnabled = function() {
+    return this.enabled;
+}
+
 PanoramioLayer.prototype.load = function(panoLayer, userOptions) {
     var options = {
         order: "popularity",
@@ -97,7 +104,7 @@ PanoramioLayer.prototype.load = function(panoLayer, userOptions) {
         miny: "-90",
         maxx: "180",
         maxy: "90",
-        size: "thumbnail"
+        size: "small"
     };
 
     for (optionName in userOptions) {
