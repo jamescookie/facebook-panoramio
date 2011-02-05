@@ -1,3 +1,3 @@
 <div>
-    your map here!
+    Displaying map for ${user}
 </div>

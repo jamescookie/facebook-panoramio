@@ -1,8 +1,13 @@
 <div>
+    <g:hasErrors bean="${user}">
+    <div class="errors">
+        <g:renderErrors bean="${user}" as="list" />
+    </div>
+    </g:hasErrors>
     <g:form>
         <label for="panoramioId">Enter your user id here</label>
         <g:hiddenField name="facebookId" value="${user.facebookId}"/>
-        <g:textField name="panoramioId" value="${user.panoramioId}"/><br/>
+        <g:textField name="panoramioId" value="${user.panoramioId}" class="${hasErrors(bean: user, field: 'panoramioId', 'errors')}"/><br/>
         <g:actionSubmit id="setUser" value="Save" action="updateUser"/>
     </g:form>
 </div>
