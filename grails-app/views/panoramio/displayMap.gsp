@@ -1,3 +1,7 @@
+<!--<a id="changeMapLocation" href="<g:createLink action="changeMapLocation" id="${user.facebookId}"/>">Always Show Map Like This</a> |-->
+<a id="changeUserId" href="<g:createLink action="setUser" id="${user.facebookId}"/>">Set User Id</a> |
+<a href="http://www.panoramio.com/">Visit Panoramio</a>
+<br/><br/>
 <div id="map" data-user="${user.panoramioId}">
     <noscript>
       <div>

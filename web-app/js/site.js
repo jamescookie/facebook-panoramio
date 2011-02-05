@@ -60,6 +60,8 @@ $(function() {
     checkMap = function() {
         var mapContainer = $('#map');
         if (mapContainer && GBrowserIsCompatible()) {
+            initMapLinks();
+
             var map = new GMap2(mapContainer[0]);
             map.setCenter(new GLatLng(51.417689690776456, -0.19297689199447632), 2);
             map.setMapType(G_SATELLITE_MAP);
@@ -71,6 +73,10 @@ $(function() {
             panoLayer.enable();
             panoLayer.load(panoLayer);
         }
+    },
+
+    initMapLinks = function() {
+        $('#changeUserId').click(function(ev) {ev.preventDefault();$('#fb-root').load($('#changeUserId').attr('href'));});
     };
 
     $(init);

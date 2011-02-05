@@ -15,6 +15,10 @@ class PanoramioController {
         }
     }
 
+    def setUser = {
+        [user:PanoramioUser.findByFacebookId(params.id)]
+    }
+
     def updateUser = {
         def user = PanoramioUser.findByFacebookId(params.facebookId)
         if (user) {
