@@ -9,6 +9,9 @@
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAbZ4Jaxje4fqwUIzdlhU7jhS746Z0JIdejkzocDyQ_2hnWIfSeBSdho-FRRwP2YcYtt9eNGhFVxmU9A"></script>
+    <script src="<g:resource dir="js" file="markermanager.js" />"></script>
+    <script src="<g:resource dir="js" file="pano_layer.js" />"></script>
     <script>
         $(function() {
             var init = function() {
@@ -21,7 +24,7 @@
 
                 FB.getLoginStatus(function(response) {
                     if (response.session) {
-                        doStuff(response.session.uid);
+                        checkUser(response.session.uid);
                     } else {
                         $('#connecting').hide();
                         $('#connect').click(connect).show();
@@ -46,6 +49,7 @@
                         data: dataString,
                         success: function(data) {
                             $('#fb-root').html(data);
+                            checkMap();
                         }
                     });
 
@@ -59,13 +63,29 @@
                     if (response.session) {
                         $('#connect').hide();
                         $('#connecting').show();
-                        doStuff(response.session.uid);
+                        checkUser(response.session.uid);
                     }
                 });
             },
 
-            doStuff = function(userId) {
-                $('#fb-root').load("<g:createLink action="checkUser"/>/"+userId)
+            checkUser = function(userId) {
+                $('#fb-root').load("<g:createLink action="checkUser"/>/"+userId);
+                checkMap();
+            },
+
+            checkMap = function() {
+                var mapContainer = $('#map');
+                if (mapContainer && GBrowserIsCompatible()) {
+                    var map = new GMap2(mapContainer[0]);
+                    map.setCenter(new GLatLng(51.417689690776456, -0.19297689199447632), 1);
+                    map.setMapType(G_SATELLITE_MAP);
+                    map.addControl(new GSmallMapControl());
+                    map.enableDoubleClickZoom();
+                    map.enableContinuousZoom();
+                    map.enableScrollWheelZoom();
+                    var panoLayer = new PanoramioLayer(map, mapContainer.data('user'));
+                    panoLayer.enable();
+                }
             };
 
             $(init);
