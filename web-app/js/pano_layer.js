@@ -90,15 +90,14 @@ PanoramioLayer.prototype.disable = function() {
 PanoramioLayer.prototype.load = function(panoLayer, userOptions) {
     var options = {
         order: "popularity",
-        set: "full",
+        set: panoLayer.userId,
         from: "0",
         to: "100",
         minx: "-180",
         miny: "-90",
         maxx: "180",
         maxy: "90",
-        size: "thumbnail",
-        user: panoLayer.userId
+        size: "thumbnail"
     };
 
     for (optionName in userOptions) {

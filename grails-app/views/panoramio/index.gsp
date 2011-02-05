@@ -69,15 +69,14 @@
             },
 
             checkUser = function(userId) {
-                $('#fb-root').load("<g:createLink action="checkUser"/>/"+userId);
-                checkMap();
+                $('#fb-root').load("<g:createLink action="checkUser"/>/"+userId, checkMap);
             },
 
             checkMap = function() {
                 var mapContainer = $('#map');
                 if (mapContainer && GBrowserIsCompatible()) {
                     var map = new GMap2(mapContainer[0]);
-                    map.setCenter(new GLatLng(51.417689690776456, -0.19297689199447632), 1);
+                    map.setCenter(new GLatLng(51.417689690776456, -0.19297689199447632), 2);
                     map.setMapType(G_SATELLITE_MAP);
                     map.addControl(new GSmallMapControl());
                     map.enableDoubleClickZoom();
@@ -85,6 +84,7 @@
                     map.enableScrollWheelZoom();
                     var panoLayer = new PanoramioLayer(map, mapContainer.data('user'));
                     panoLayer.enable();
+                    panoLayer.load(panoLayer);
                 }
             };
 
