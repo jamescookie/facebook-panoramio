@@ -1,5 +1,6 @@
 $(function() {
-    var init = function() {
+    var map,
+    init = function() {
         FB.init({
             appId  : '6995620803',
             status : true, // check login status
@@ -62,8 +63,12 @@ $(function() {
         if (mapContainer && GBrowserIsCompatible()) {
             initMapLinks();
 
-            var map = new GMap2(mapContainer[0]);
-            map.setCenter(new GLatLng(51.417689690776456, -0.19297689199447632), 2);
+            map = new GMap2(mapContainer[0]);
+            if (mapContainer.data('lat') && mapContainer.data('long') && mapContainer.data('zoom')) {
+                map.setCenter(new GLatLng(mapContainer.data('lat'), mapContainer.data('long')), mapContainer.data('zoom'));
+            } else {
+                map.setCenter(new GLatLng(51.417689690776456, -0.19297689199447632), 2);
+            }
             map.setMapType(G_SATELLITE_MAP);
             map.addControl(new GSmallMapControl());
             map.enableDoubleClickZoom();
@@ -77,6 +82,27 @@ $(function() {
 
     initMapLinks = function() {
         $('#changeUserId').click(function(ev) {ev.preventDefault();$('#fb-root').load($('#changeUserId').attr('href'));});
+        $('#changeMapLocation').click(findAndPostCurrentMapSettings);
+    },
+
+    findAndPostCurrentMapSettings = function(ev) {
+        ev.preventDefault();
+        var centre = map.getCenter(),
+            dataString = "latitude="+centre.y+"&longitude="+centre.x+"&zoom="+map.getZoom();
+
+        $('#changeMapLocation').append('<div id="messagepop">Please wait...</div>');
+        $('#messagepop').show('fast');
+
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('href'),
+            data: dataString,
+            success: function(data) {
+                var message = $('#messagepop');
+                message.text('Successfully changed default map settings.');
+                setTimeout(function() {message.hide('fast', function() {message.remove()})}, 4000);
+            }
+        });
     };
 
     $(init);

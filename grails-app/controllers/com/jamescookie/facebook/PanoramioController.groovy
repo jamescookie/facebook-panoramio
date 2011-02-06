@@ -19,6 +19,12 @@ class PanoramioController {
         [user:PanoramioUser.findByFacebookId(params.id)]
     }
 
+    def changeMapLocation = {
+        //todo stuff
+        println params
+        render "success"
+    }
+
     def updateUser = {
         def user = PanoramioUser.findByFacebookId(params.facebookId)
         if (user) {

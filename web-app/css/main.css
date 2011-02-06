@@ -25,3 +25,19 @@ td.errors input {
     height:500px;
     background-color:#C0C0C0;
 }
+#messagepop {
+    background-color: #D3EACA;
+    border: 1px solid #999999;
+    color: #000;
+    cursor: default;
+    display: none;
+    margin: 3px 0 0 10px;
+    position: absolute;
+    text-align: left;
+    width: 250px;
+    z-index: 50;
+    padding: 25px 25px 20px;
+}
+a {
+    text-decoration: none;
+}
