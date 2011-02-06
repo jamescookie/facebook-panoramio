@@ -20,8 +20,17 @@ class PanoramioController {
     }
 
     def changeMapLocation = {
-        //todo stuff
-        println params
+        def user = PanoramioUser.findByFacebookId(params.id)
+        if (user) {
+            if (user.geoPreference) {
+                user.geoPreference.properties = params
+            } else {
+                def preference = new GeoPreference(params)
+                preference.user = user
+                preference.save(flush: true)
+            }
+        }
+
         render "success"
     }
 

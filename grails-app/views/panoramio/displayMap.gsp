@@ -2,7 +2,7 @@
 <a id="changeUserId" href="<g:createLink action="setUser" id="${user.facebookId}"/>">Set User Id</a> |
 <a href="http://www.panoramio.com/">Visit Panoramio</a>
 <br/><br/>
-<div id="map" data-user="${user.panoramioId}" data-lat="" data-long="" data-zoom="">
+<div id="map" data-user="${user.panoramioId}" data-lat="${user.geoPreference?.latitude}" data-long="${user.geoPreference?.longitude}" data-zoom="${user.geoPreference?.zoom}">
     <noscript>
       <div>
         <b>JavaScript must be enabled in order for you to use Google Maps.</b><br/>

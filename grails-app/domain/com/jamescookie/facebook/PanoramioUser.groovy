@@ -9,6 +9,7 @@ class PanoramioUser {
     static constraints = {
         facebookId(unique:true, blank:false, nullable:false)
         panoramioId(blank:false, nullable:false)
+        geoPreference(nullable:true)
     }
 
     public String toString() {
