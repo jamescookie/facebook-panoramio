@@ -26,17 +26,32 @@ td.errors input {
     background-color:#C0C0C0;
 }
 #messagepop {
-    background-color: #D3EACA;
-    border: 1px solid #999999;
+    background: #f3961c; /* default background for browsers without gradient support */
     color: #000;
-    cursor: default;
     display: none;
-    margin: 3px 0 0 10px;
+    margin: 22px 0 0 50px;
     position: absolute;
-    text-align: left;
-    width: 250px;
     z-index: 50;
-    padding: 25px 25px 20px;
+    padding: 15px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    background:-webkit-gradient(linear, left top, left bottom, from(#f3961c), to(#f9d835));
+    background:-moz-linear-gradient(top, #f3961c, #f9d835);
+    background:-o-linear-gradient(top, #f3961c, #f9d835);
+}
+#messagepop:after {
+	content:"";
+	display:block; /* reduce the damage in FF3.0 */
+	position:absolute;
+    bottom:auto;
+    left:auto;
+    top:-15px; /* value = - border-top-width - border-bottom-width */
+	width:0;
+	height:0;
+    border-width:0 15px 15px; /* vary these values to change the angle of the vertex */
+	border-style:solid;
+	border-color:#f3961c transparent;
 }
 a {
     text-decoration: none;

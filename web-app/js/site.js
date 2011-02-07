@@ -5,7 +5,8 @@ $(function() {
             appId  : '6995620803',
             status : true, // check login status
             cookie : true, // enable cookies to allow the server to access the session
-            xfbml  : true  // parse XFBML
+            xfbml  : true,  // parse XFBML
+            channelUrl : 'http://www.jamescookie.com/facebook/channel.html'  // custom channel
         });
 
         FB.getLoginStatus(function(response) {
@@ -90,7 +91,7 @@ $(function() {
         var centre = map.getCenter(),
             dataString = "latitude="+centre.y+"&longitude="+centre.x+"&zoom="+map.getZoom();
 
-        $('#changeMapLocation').append('<div id="messagepop">Please wait...</div>');
+        $('#changeMapLocation').append('<div id="messagepop" class="triangle-isosceles top">Please wait...</div>');
         $('#messagepop').show('fast');
 
         $.ajax({
