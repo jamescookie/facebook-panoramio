@@ -18,7 +18,7 @@ $(function() {
             }
         });
 
-        $('#setUser').live('click', function(ev) {
+        $('#setUser').on('click', function(ev) {
             ev.preventDefault();
             var button = $(this),
                 form = button.parent(),

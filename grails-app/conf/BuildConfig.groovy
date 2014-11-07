@@ -23,8 +23,13 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
+    plugins {
+        runtime ":hibernate:$grailsVersion"
+        build ":tomcat:$grailsVersion"
+    }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
+        runtime "hsqldb:hsqldb:1.8.0.10"
 
         // runtime 'mysql:mysql-connector-java:5.1.5'
     }
