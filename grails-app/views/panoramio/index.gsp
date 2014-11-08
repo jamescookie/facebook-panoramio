@@ -8,7 +8,7 @@
         }
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script src="//connect.facebook.com/en_US/sdk.js"></script>
     <script src="//maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAbZ4Jaxje4fqwUIzdlhU7jhS746Z0JIdejkzocDyQ_2hnWIfSeBSdho-FRRwP2YcYtt9eNGhFVxmU9A"></script>
     <script src="<g:resource dir="js" file="markermanager.js" />"></script>
     <script src="<g:resource dir="js" file="pano_layer.js" />"></script>

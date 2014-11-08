@@ -3,15 +3,16 @@ $(function() {
     init = function() {
         FB.init({
             appId  : '6995620803',
+            version: 'v2.2',
             status : true, // check login status
             cookie : true, // enable cookies to allow the server to access the session
             xfbml  : true,  // parse XFBML
-            channelUrl : 'http://www.jamescookie.com/facebook/channel.html'  // custom channel
+            channelUrl : '//www.jamescookie.com/facebook/channel.html'  // custom channel
         });
 
         FB.getLoginStatus(function(response) {
-            if (response.session) {
-                checkUser(response.session.uid);
+            if (response.status === 'connected') {
+                checkUser(response.authResponse.userID);
             } else {
                 $('#connecting').hide();
                 $('#connect').click(connect).show();
@@ -47,10 +48,10 @@ $(function() {
     connect = function(ev) {
         ev.preventDefault();
         FB.login(function(response) {
-            if (response.session) {
+            if (response.authResponse) {
                 $('#connect').hide();
                 $('#connecting').show();
-                checkUser(response.session.uid);
+                checkUser(response.authResponse.userID);
             }
         });
     },

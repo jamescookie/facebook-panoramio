@@ -13,11 +13,11 @@ function PanoramioLayerCallback(json, panoLayer) {
 }
 
 PanoramioLayerCallback.prototype.formImgUrl = function(photoId, imgType) {
-    return 'http://www.panoramio.com/photos/' + imgType + '/' + photoId + '.jpg';
+    return '//www.panoramio.com/photos/' + imgType + '/' + photoId + '.jpg';
 }
 
 PanoramioLayerCallback.prototype.formPageUrl = function(photoId) {
-    return 'http://www.panoramio.com/photo/' + photoId;
+    return '//www.panoramio.com/photo/' + photoId;
 }
 
 PanoramioLayerCallback.prototype.createMarker = function(photo, baseIcon) {
@@ -30,8 +30,8 @@ PanoramioLayerCallback.prototype.createMarker = function(photo, baseIcon) {
         photo.photo_title = photo.photo_title.substring(0, 33) + "&#8230;";
     }
     var html = "<div id='infowin' style='height:240px; width:240px;'>" +
-            "<p><a href='http://www.panoramio.com/' target='_blank'>" +
-            "<img src='http://www.panoramio.com/img/logo-small.gif' border='0' width='119px' height='25px' alt='Panoramio logo' /><\/a></p>" +
+            "<p><a href='//www.panoramio.com/' target='_blank'>" +
+            "<img src='//www.panoramio.com/img/logo-small.gif' border='0' width='119px' height='25px' alt='Panoramio logo' /><\/a></p>" +
             "<a id='photo_infowin' target='_blank' href='" + photo.photo_url + "'>" +
             "<img border='0' width='" + photo.width + "' height='" + photo.height + "' src='" + photo.photo_file_url + "'/><\/a>" +
             "<div style='overflow: hidden; width: 240px;'>" +
@@ -59,7 +59,7 @@ function PanoramioLayer(map, userId) {
     me.userId = userId;
 
     var icon = new GIcon();
-    icon.image = "http://www.panoramio.com/img/panoramio-marker.png";
+    icon.image = "//www.panoramio.com/img/panoramio-marker.png";
     icon.shadow = "";
     icon.iconSize = new GSize(24, 24);
     icon.shadowSize = new GSize(22, 22);
@@ -113,7 +113,7 @@ PanoramioLayer.prototype.load = function(panoLayer, userOptions) {
         }
     }
 
-    var url = "http://www.panoramio.com/map/get_panoramas.php?";
+    var url = "//www.panoramio.com/map/get_panoramas.php?";
     var uniqueID = "";
 
     for (optionName in options) {
